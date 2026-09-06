@@ -43,6 +43,8 @@ Raw data is extracted from the CRM and ERP sources with no transformation, landi
 - `product_crm`
 - `sales_crm`
 
+#### Use Pyspark for the extraction logic
+
 ### 2. Bronze → Silver (Staging)
 
 Two staging tables are used rather than one, since the transformation involved more than basic cleaning — each entity also needs to be validated and preserved on its own before curation. At this stage, for each table:
@@ -50,6 +52,8 @@ Two staging tables are used rather than one, since the transformation involved m
 - Columns are renamed to user-friendly names
 - Text columns are trimmed of leading/trailing spaces
 - Coded values are standardized into readable labels (e.g. `M` → `Married`/`Male`, `S` → `Single`)
+
+#### Use Pyspark for the data cleaning and transformation logic
 
 ### 3. Silver Staging → Silver Curated
 
@@ -60,9 +64,15 @@ Two staging tables are used rather than one, since the transformation involved m
 **Products**
 - The `product_key` column in `product_crm` is split, since it was a composite of two attributes: the category ID and the actual product key used in `sales_crm`.
 
+#### Use Pyspark for the data cleaning and transformation logic
+
 ### 4. Silver Curated → Gold
 
 Curated silver data is aggregated/modeled into the gold layer for consumption (see `silver_curated_to_gold.ipynb`).
+
+
+#### Use SQL for the data modeling logic
+We have tables: customers, products, date as dimension tables and our sales as a fact table
 
 ## Job Orchestration
 
